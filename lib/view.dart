@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meu_app/produtos.dart';
 import 'appbar.dart';
 import 'conteudo.dart';
 import 'foorter.dart';
@@ -21,6 +22,7 @@ class LandingPage extends StatelessWidget {
           children: const [
             ConteudoWidget(), // Supondo que você crie um ConteudoWidget em conteudo.dart
             ServicoWidget(), // Supondo que você crie um ServicoWidget em serviço.dart
+            ProdutosWidget(), // Supondo que você crie um ProdutosWidget em produtos.dart
           ],
         ),
       ),
