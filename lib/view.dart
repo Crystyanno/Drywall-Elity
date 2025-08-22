@@ -13,21 +13,19 @@ class LandingPage extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
-        child:
-            CustomAppBar(), // Supondo que você crie um CustomAppBar em appbar.dart
+        child: CustomAppBar(),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: const [
-            ConteudoWidget(), // Supondo que você crie um ConteudoWidget em conteudo.dart
-            ServicoWidget(), // Supondo que você crie um ServicoWidget em serviço.dart
-            ProdutosWidget(), // Supondo que você crie um ProdutosWidget em produtos.dart
+            ConteudoWidget(),
+            ServicoWidget(),
+            ProdutosWidget(),
+            CustomFooter(), // Agora o footer só aparece no final
           ],
         ),
       ),
-      bottomNavigationBar:
-          CustomFooter(), // Supondo que você crie um CustomFooter em foorter.dart
     );
   }
 }

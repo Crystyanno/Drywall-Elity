@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class ServicoWidget extends StatelessWidget {
   const ServicoWidget({Key? key}) : super(key: key);
@@ -18,45 +19,50 @@ class ServicoWidget extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Determine number of columns based on screen width
         int crossAxisCount = _calculateCrossAxisCount(constraints.maxWidth);
 
-        return Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: _calculateHorizontalPadding(constraints.maxWidth),
-            vertical: 24.0,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Conheça nossos Serviços',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: -0.5,
-                ),
+        return Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: _calculateHorizontalPadding(constraints.maxWidth),
+                vertical: 24.0,
               ),
-              const SizedBox(height: 24),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: _calculateChildAspectRatio(
-                    constraints.maxWidth,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Conheça nossos Serviços',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: -0.5,
+                    ),
                   ),
-                ),
-                itemCount: produtos.length,
-                itemBuilder: (context, index) {
-                  final produto = produtos[index];
-                  return _buildProductCard(produto, context);
-                },
+                  const SizedBox(height: 24),
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      childAspectRatio: _calculateChildAspectRatio(
+                        constraints.maxWidth,
+                      ),
+                    ),
+                    itemCount: produtos.length,
+                    itemBuilder: (context, index) {
+                      final produto = produtos[index];
+                      return _buildProductCard(produto, context);
+                    },
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 24),
+            _buildBenefitsSection(),
+          ],
         );
       },
     );
@@ -128,6 +134,128 @@ class ServicoWidget extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildBenefitsSection() {
+    return Container(
+      width: double.infinity,
+      color: Colors.blue.shade700,
+      padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 16.0),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1400),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final isWide = constraints.maxWidth > 800;
+              return Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 32.0,
+                runSpacing: 32.0,
+                children: [
+                  _buildBenefitItem(
+                        Icons.speed,
+                        'Rapidez',
+                        'Equipe treinada para realizar entregas rápidas.',
+                        isWide,
+                      )
+                      .animate()
+                      .fadeIn(duration: 600.ms, delay: 200.ms)
+                      .slideX(begin: -0.2, duration: 600.ms),
+                  _buildBenefitItem(
+                        Icons.check_circle,
+                        'Qualidade',
+                        'Produtos selecionados para garantir\nexcelência em cada detalhe.',
+                        isWide,
+                      )
+                      .animate()
+                      .fadeIn(duration: 600.ms, delay: 400.ms)
+                      .slideX(begin: -0.2, duration: 600.ms),
+                  _buildBenefitItem(
+                        Icons.attach_money,
+                        'Custo-benefício',
+                        'Menores preços do mercado com\ncondições de pagamento acessíveis.',
+                        isWide,
+                      )
+                      .animate()
+                      .fadeIn(duration: 600.ms, delay: 600.ms)
+                      .slideX(begin: -0.2, duration: 600.ms),
+                  _buildBenefitItem(
+                        Icons.favorite,
+                        'Relacionamento',
+                        'Atendimento próximo e excepcional\npara uma experiência completa.',
+                        isWide,
+                      )
+                      .animate()
+                      .fadeIn(duration: 600.ms, delay: 800.ms)
+                      .slideX(begin: -0.2, duration: 600.ms),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBenefitItem(
+    IconData icon,
+    String title,
+    String description,
+    bool isWide,
+  ) {
+    return Container(
+      width: isWide ? 280 : double.infinity,
+      padding: const EdgeInsets.all(20.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 8,
+            offset: const Offset(2, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(icon, size: 48, color: Colors.blue.shade700)
+              .animate(onPlay: (controller) => controller.repeat())
+              .shimmer(delay: 2000.ms, duration: 1800.ms)
+              .shake(hz: 2, curve: Curves.easeInOut),
+          const SizedBox(height: 16),
+          Text(
+            title.toUpperCase(),
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.2,
+            ),
+            textAlign: TextAlign.center,
+          ).animate().fadeIn(duration: 400.ms).scale(delay: 200.ms),
+          const SizedBox(height: 12),
+          Text(
+                description,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey.shade700,
+                  height: 1.4,
+                ),
+                textAlign: TextAlign.center,
+              )
+              .animate()
+              .fadeIn(duration: 400.ms)
+              .slideY(begin: 0.2, delay: 200.ms),
+        ],
+      ),
+    ).animate().scale(
+      begin: const Offset(1, 1),
+      end: const Offset(1.05, 1.05),
+      duration: 200.ms,
+      curve: Curves.easeInOut,
     );
   }
 
