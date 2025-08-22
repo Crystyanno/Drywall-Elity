@@ -49,7 +49,7 @@ class CustomFooter extends StatelessWidget {
               Icon(Icons.home_work, color: Colors.white, size: 32),
               const SizedBox(width: 8),
               Text(
-                'Drywall Elity',
+                'Drywall EQUIPE',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -129,7 +129,7 @@ class CustomFooter extends StatelessWidget {
           const SizedBox(height: 10),
           _contactRow(Icons.location_on, 'Rua Exemplo, 123'),
           _contactRow(Icons.phone, '(11) 99999-9999'),
-          _contactRow(Icons.email, 'contato@empresa.com'),
+          _contactRow(Icons.email, 'contato@EQUPE.com'),
           const SizedBox(height: 10),
           Row(
             children: [
@@ -254,7 +254,7 @@ class CustomFooter extends StatelessWidget {
             Icon(Icons.copyright_outlined, size: 13, color: Colors.white54),
             const SizedBox(width: 4),
             Text(
-              '2025 Drywall Elity. Todos os direitos reservados.',
+              '2025 Drywall EQUIPE . Todos os direitos reservados.',
               style: TextStyle(color: Colors.white54, fontSize: 12),
             ),
           ],
