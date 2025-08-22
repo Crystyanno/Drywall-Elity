@@ -7,206 +7,263 @@ class CustomFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF2C3E50),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+      color: const Color(0xFF181C2E),
+      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildGradientDivider()
-              .animate()
-              .fadeIn(duration: 600.ms)
-              .slideX(begin: -0.2, end: 0),
-          const SizedBox(height: 16),
-          _buildMainContent(),
-          const SizedBox(height: 16),
-          _buildGradientDivider()
-              .animate()
-              .fadeIn(duration: 600.ms)
-              .slideX(begin: 0.2, end: 0),
-          const SizedBox(height: 8),
-          _buildCopyright(),
+          _buildTopSection(context),
+          const SizedBox(height: 24),
+          const Divider(color: Colors.white24, thickness: 1),
+          const SizedBox(height: 12),
+          _buildBottomSection(),
         ],
       ),
     );
   }
 
-  Widget _buildMainContent() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [_buildContactSection(), _buildSocialButtons()],
+  Widget _buildTopSection(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildLogoAndAbout(),
+            _buildLinks(),
+            _buildContact(),
+            _buildNewsletter(context),
+          ],
+        );
+      },
     );
   }
 
-  Widget _buildContactSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildContactRow(
-          Icons.location_on_outlined,
-          'Rua Exemplo, 123',
-          Colors.orangeAccent,
-          200,
-        ),
-        const SizedBox(height: 8),
-        _buildContactRow(
-          Icons.phone_outlined,
-          '(11) 99999-9999',
-          Colors.greenAccent,
-          400,
-        ),
-        const SizedBox(height: 8),
-        _buildContactRow(
-          Icons.email_outlined,
-          'contato@empresa.com',
-          Colors.blueAccent,
-          600,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildContactRow(
-    IconData icon,
-    String text,
-    Color color,
-    int delayMs,
-  ) {
-    return Container(
-          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.white24, width: 1),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
+  Widget _buildLogoAndAbout() {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             children: [
-              Icon(icon, size: 16, color: color)
-                  .animate(onPlay: (controller) => controller.repeat())
-                  .shimmer(delay: 2000.ms, duration: 1800.ms)
-                  .shake(hz: 2, curve: Curves.easeInOut),
+              Icon(Icons.home_work, color: Colors.white, size: 32),
               const SizedBox(width: 8),
               Text(
-                text,
+                'Drywall Elity',
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.9),
-                  fontSize: 13,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                  letterSpacing: 1.2,
                 ),
               ),
             ],
           ),
-        )
-        .animate()
-        .fadeIn(delay: delayMs.ms, duration: 500.ms)
-        .slideX(begin: -0.2, end: 0, delay: delayMs.ms, duration: 500.ms)
-        .animate(onPlay: (controller) => controller.repeat())
-        .scaleXY(
-          begin: 1,
-          end: 1.02,
-          duration: 2000.ms,
-          curve: Curves.easeInOut,
-        )
-        .then()
-        .scaleXY(
-          begin: 1.02,
-          end: 1,
-          duration: 2000.ms,
-          curve: Curves.easeInOut,
-        );
-  }
-
-  Widget _buildSocialButtons() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildSocialButton(
-          Icons.facebook,
-          'Facebook',
-          const Color(0xFF1877F2),
-          0,
-        ),
-        const SizedBox(width: 12),
-        _buildSocialButton(
-          Icons.photo_camera,
-          'Instagram',
-          const Color(0xFFE4405F),
-          200,
-        ),
-        const SizedBox(width: 12),
-        _buildSocialButton(
-          Icons.message,
-          'WhatsApp',
-          const Color(0xFF25D366),
-          400,
-        ),
-      ],
+          const SizedBox(height: 12),
+          Text(
+            'Especialistas em soluções de drywall, gesso e acabamentos para sua obra. Qualidade, agilidade e confiança!',
+            style: TextStyle(color: Colors.white70, fontSize: 13),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildSocialButton(
-    IconData icon,
-    String tooltip,
-    Color color,
-    int delayMs,
-  ) {
-    return Tooltip(
-          message: tooltip,
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: color.withOpacity(0.5), width: 1),
-            ),
-            child: IconButton(
-              icon: Icon(icon, size: 18),
-              color: color,
-              onPressed: () {},
-              constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+  Widget _buildLinks() {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Links Rápidos',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
             ),
           ),
-        )
-        .animate()
-        .fadeIn(delay: delayMs.ms, duration: 600.ms)
-        .scale(delay: delayMs.ms, duration: 600.ms)
-        .animate(onPlay: (controller) => controller.repeat())
-        .shimmer(delay: 2000.ms, duration: 1800.ms);
+          const SizedBox(height: 10),
+          _footerLink('Início'),
+          _footerLink('Produtos'),
+          _footerLink('Serviços'),
+          _footerLink('Contato'),
+        ],
+      ),
+    );
   }
 
-  Widget _buildGradientDivider() {
-    return Container(
-      height: 1,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.transparent,
-            Colors.white.withOpacity(0.3),
-            Colors.transparent,
-          ],
+  Widget _footerLink(String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () {},
+          child: Text(
+            text,
+            style: TextStyle(
+              color: Colors.white70,
+              fontSize: 13,
+              decoration: TextDecoration.underline,
+              decorationColor: Colors.white24,
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildCopyright() {
-    return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.copyright_outlined,
-              size: 12,
-              color: Colors.white.withOpacity(0.6),
+  Widget _buildContact() {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Contato',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
             ),
+          ),
+          const SizedBox(height: 10),
+          _contactRow(Icons.location_on, 'Rua Exemplo, 123'),
+          _contactRow(Icons.phone, '(11) 99999-9999'),
+          _contactRow(Icons.email, 'contato@empresa.com'),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              _socialIcon(Icons.facebook, Color(0xFF1877F2)),
+              const SizedBox(width: 8),
+              _socialIcon(Icons.photo_camera, Color(0xFFE4405F)),
+              const SizedBox(width: 8),
+              _socialIcon(Icons.message, Color(0xFF25D366)),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _contactRow(IconData icon, String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.white54, size: 16),
+          const SizedBox(width: 6),
+          Flexible(
+            child: Text(
+              text,
+              style: TextStyle(color: Colors.white70, fontSize: 13),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _socialIcon(IconData icon, Color color) {
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color.withOpacity(0.12),
+      ),
+      child: IconButton(
+        icon: Icon(icon, size: 18),
+        color: color,
+        onPressed: () {},
+        constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+      ),
+    );
+  }
+
+  Widget _buildNewsletter(BuildContext context) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Receba novidades',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Cadastre seu e-mail para promoções e novidades:',
+            style: TextStyle(color: Colors.white70, fontSize: 13),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Seu e-mail',
+                        border: InputBorder.none,
+                        isDense: true,
+                        hintStyle: TextStyle(fontSize: 13),
+                      ),
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 10,
+                  ),
+                ),
+                onPressed: () {},
+                child: const Text(
+                  'Enviar',
+                  style: TextStyle(fontSize: 13, color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomSection() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            Icon(Icons.copyright_outlined, size: 13, color: Colors.white54),
             const SizedBox(width: 4),
             Text(
-              '2025 Minha Empresa',
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.6),
-                fontSize: 12,
-              ),
+              '2025 Drywall Elity. Todos os direitos reservados.',
+              style: TextStyle(color: Colors.white54, fontSize: 12),
             ),
           ],
-        )
-        .animate()
-        .fadeIn(duration: 800.ms)
-        .slideY(begin: 0.2, end: 0, duration: 800.ms);
+        ),
+        Text(
+          'Desenvolvido por Equipe ',
+          style: TextStyle(color: Colors.white54, fontSize: 12),
+        ),
+      ],
+    );
   }
 }
