@@ -3,6 +3,7 @@ import 'appbar.dart';
 import 'conteudo.dart';
 import 'foorter.dart';
 import 'serviço.dart';
+import 'produtos.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -20,6 +21,7 @@ class LandingPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: const [
             ConteudoWidget(), // Supondo que você crie um ConteudoWidget em conteudo.dart
+            ProdutosWidget(), // New products showcase widget
             ServicoWidget(), // Supondo que você crie um ServicoWidget em serviço.dart
           ],
         ),
