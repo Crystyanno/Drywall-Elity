@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meu_app/dialog/orcamento.dart';
+import 'package:meu_app/dialog/servico.dart';
 
 class ConteudoWidget extends StatelessWidget {
   const ConteudoWidget({Key? key}) : super(key: key);
@@ -27,7 +29,7 @@ class ConteudoWidget extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 // Ação para solicitar orçamento
-                _solicitarOrcamento(context);
+                _verOrcamento(context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
@@ -74,44 +76,23 @@ class ConteudoWidget extends StatelessWidget {
   }
 
   // Método para ação do botão Solicitar Orçamento
-  void _solicitarOrcamento(BuildContext context) {
-    // Aqui você pode implementar a navegação para uma tela de orçamento
-    // ou abrir um formulário, fazer uma ligação, etc.
-
+  // sua construção segue dentro de uma pasta dialog
+  void _verOrcamento(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Solicitar Orçamento'),
-          content: const Text('Funcionalidade será implementada em breve!'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('OK'),
-            ),
-          ],
-        );
+        return const OrcamentoDialog();
       },
     );
   }
 
   // Método para ação do botão Nossos Serviços
+  // sua construção segue dentro de uma pasta dialog
   void _verNossosServicos(BuildContext context) {
-    // Aqui você pode implementar a navegação para uma tela de serviços
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Nossos Serviços'),
-          content: const Text('Lista de serviços será exibida em breve!'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('OK'),
-            ),
-          ],
-        );
+        return const ServicoDialog();
       },
     );
   }

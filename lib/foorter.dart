@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class CustomFooter extends StatelessWidget {
-  const CustomFooter({Key? key}) : super(key: key);
+  const CustomFooter({super.key});
 
   @override
   Widget build(BuildContext context) {
