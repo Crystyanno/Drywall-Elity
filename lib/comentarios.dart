@@ -257,6 +257,7 @@ class _ComentariosCarouselState extends State<_ComentariosCarousel> {
     super.dispose();
   }
 
+  // automatico
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -286,7 +287,7 @@ class ComentarioItem extends StatelessWidget {
     required this.comentario,
     required this.index,
   });
-
+  /////////////////////////////////
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -395,7 +396,7 @@ class ComentarioItem extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            "Verificado",
+                            "Verificados",
                             style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
