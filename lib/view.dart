@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meu_app/comentarios.dart';
 import 'package:meu_app/produtos.dart';
 import 'appbar.dart';
 import 'conteudo.dart';
@@ -22,6 +23,7 @@ class LandingPage extends StatelessWidget {
             ConteudoWidget(),
             ServicoWidget(),
             ProdutosWidget(),
+            ComentariosWidget(),
             CustomFooter(), // Agora o footer só aparece no final
           ],
         ),
