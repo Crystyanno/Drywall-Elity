@@ -1,99 +1,84 @@
 import 'package:flutter/material.dart';
-import 'package:meu_app/dialog/orcamento.dart';
-import 'package:meu_app/dialog/servico.dart';
 
 class ConteudoWidget extends StatelessWidget {
-  const ConteudoWidget({Key? key}) : super(key: key);
+  const ConteudoWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          const Text(
-            'Soluções em Drywall',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    return ClipPath(
+      clipper: DerretidoClipper(),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 24),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue.shade900, Colors.blue.shade400],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          const SizedBox(height: 16),
-          const Text(
-            'Transformamos espaços com qualidade, agilidade e acabamento profissional. \n'
-            'Especialistas em gesso acartonado para projetos residenciais e comerciais.',
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 24),
-
-          // Botão Solicitar Orçamento (Principal)
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                // Ação para solicitar orçamento
-                _verOrcamento(context);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
+        ),
+        child: Column(
+          children: [
+            Text(
+              '✨ Soluções em Drywall ✨',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
-              child: const Text(
-                'Solicitar Orçamento',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Transformamos espaços com qualidade, agilidade e\n'
+              'um acabamento impecável para residências e comércios.',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Colors.white.withOpacity(0.9),
               ),
             ),
-          ),
-
-          const SizedBox(height: 12),
-
-          // Botão Nossos Serviços (Secundário)
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton(
-              onPressed: () {
-                // Ação para ver serviços
-                _verNossosServicos(context);
-              },
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.blue,
-                side: const BorderSide(color: Colors.blue),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const Text(
-                'Nossos Serviços',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+}
 
-  // Método para ação do botão Solicitar Orçamento
-  // sua construção segue dentro de uma pasta dialog
-  void _verOrcamento(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return const OrcamentoDialog();
-      },
+/// CustomClipper que cria efeito "derretido" na parte de baixo
+class DerretidoClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, size.height - 40);
+
+    // curva 1
+    path.quadraticBezierTo(
+      size.width * 0.2,
+      size.height,
+      size.width * 0.4,
+      size.height - 30,
     );
+
+    // curva 2
+    path.quadraticBezierTo(
+      size.width * 0.6,
+      size.height - 60,
+      size.width * 0.8,
+      size.height - 20,
+    );
+
+    // curva 3
+    path.quadraticBezierTo(
+      size.width * 0.9,
+      size.height,
+      size.width,
+      size.height - 30,
+    );
+
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
   }
 
-  // Método para ação do botão Nossos Serviços
-  // sua construção segue dentro de uma pasta dialog
-  void _verNossosServicos(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return const ServicoDialog();
-      },
-    );
-  }
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }
