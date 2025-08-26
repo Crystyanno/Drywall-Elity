@@ -35,7 +35,7 @@ class CustomAppBar extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 const Text(
-                  'Drywall Solução',
+                  'Elity Drywall',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
