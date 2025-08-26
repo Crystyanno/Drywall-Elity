@@ -49,7 +49,7 @@ class CustomFooter extends StatelessWidget {
               Icon(Icons.home_work, color: Colors.white, size: 32),
               const SizedBox(width: 8),
               Text(
-                'Drywall EQUIPE',
+                'Elity Drywall',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -254,7 +254,7 @@ class CustomFooter extends StatelessWidget {
             Icon(Icons.copyright_outlined, size: 13, color: Colors.white54),
             const SizedBox(width: 4),
             Text(
-              '2025 Drywall EQUIPE . Todos os direitos reservados.',
+              '2025 Elity Drywall. Todos os direitos reservados.',
               style: TextStyle(color: Colors.white54, fontSize: 12),
             ),
           ],
