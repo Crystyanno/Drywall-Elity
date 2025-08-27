@@ -13,14 +13,19 @@ class _ProdutosWidgetState extends State<ProdutosWidget> {
   int _currentIndex = 0;
 
   final List<Map<String, String>> produtos = [
-    {'nome': 'Placas de Gesso', 'img': 'assets/placa_gesso.png'},
-    {'nome': 'Sacos de Gesso', 'img': 'assets/saco_gesso.png'},
-    {'nome': 'Molduras', 'img': 'assets/moldura.png'},
-    {'nome': 'Blocos de Gesso', 'img': 'assets/bloco_gesso.png'},
-    {'nome': 'Gesso Cola', 'img': 'assets/gesso_cola.png'},
     {'nome': 'Ferragens para Drywall', 'img': 'assets/ferragem.png'},
-    {'nome': 'Ferramentas', 'img': 'assets/ferramentas.png'},
-    {'nome': 'Placas em 3D', 'img': 'assets/placa_3d.png'},
+    {
+      'nome': 'Chapa de Drywall Standard 1,8x1,2mx1,25cm Branca',
+      'img': 'assets/Gypsun-branca.jpeg',
+    },
+    {
+      'nome': 'Chapa de Drywall Resistente a Úmidade 1,8x1,2mx1,25cm Verde',
+      'img': 'assets/Gypsun-verde.jpeg',
+    },
+    {
+      'nome': 'Chapa de Drywall Resistente ao Fogo 1,80x1,20m Rosa ',
+      'img': 'assets/Gypsun-repsa.jpeg',
+    },
   ];
 
   @override
