@@ -90,12 +90,12 @@ class _NavButtonState extends State<_NavButton> {
         duration: const Duration(milliseconds: 200),
         margin: const EdgeInsets.symmetric(horizontal: 12),
         child: Column(
-          mainAxisSize: MainAxisSize.min, // 👈 evita overflow
+          mainAxisSize: MainAxisSize.min, // evita overflow
           children: [
             TextButton(
               style: TextButton.styleFrom(
-                minimumSize: Size.zero, // 👈 remove altura mínima padrão
-                padding: EdgeInsets.zero, // 👈 tira padding extra
+                minimumSize: Size.zero, // remove altura mínima padrão
+                padding: EdgeInsets.zero, // tira padding extra
                 foregroundColor: _isHovered
                     ? Colors.blue.shade700
                     : Colors.blueGrey,

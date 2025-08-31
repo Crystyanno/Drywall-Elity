@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:meu_app/comentarios.dart';
 import 'package:meu_app/produtos.dart';
+import 'sobre.dart';
 import 'appbar.dart';
 import 'conteudo.dart';
 import 'foorter.dart';
 import 'serviço.dart';
 
 class LandingPage extends StatelessWidget {
-  const LandingPage({Key? key}) : super(key: key);
+  const LandingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +20,15 @@ class LandingPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: const [
-            ConteudoWidget(),
-            ServicoWidget(),
-            ProdutosWidget(),
-            ComentariosWidget(),
-            CustomFooter(), // Agora o footer só aparece no final
+          children: [
+            const ConteudoWidget(),
+            const ServicoWidget(),
+
+            const ProdutosWidget(),
+            const SobreWidget(),
+            const ComentariosWidget(),
+
+            const CustomFooter(), // Agora o footer só aparece no final
           ],
         ),
       ),
