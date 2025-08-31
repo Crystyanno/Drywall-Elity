@@ -18,22 +18,22 @@ class _ServicoWidgetState extends State<ServicoWidget> {
   final List<Map<String, String>> produtos = [
     {
       'nome': 'Forro com Cortineiro ',
-      'img': 'assets/images/forro-com-cortineiro.jpeg',
+      'img': 'lib/assets/images/forro-com-cortineiro.jpeg',
     },
     {'nome': 'Forro de Gesso ', 'img': 'assets/forro-de-gesso.jpeg'},
-    {'nome': 'Forro Tabicado', 'img': 'assets/forro-tabicado.jpeg'},
+    {'nome': 'Forro Tabicado', 'img': 'lib/assets/images/forro-tabicado.jpeg'},
     {
       'nome': 'Forro com Sanca Invertida',
-      'img': 'assets/forro-com-sanca-invertida.jpeg',
+      'img': 'lib/assets/images/forro-com-sanca-invertida.jpeg',
     },
     {
       'nome': 'Parede com Isolamento Acustico ',
-      'img': 'assets/isolamento-acustico.jpeg',
+      'img': 'lib/assets/images/isolamento-acustico.jpeg',
     },
     {'nome': 'Paredes em Drywall', 'img': 'assets/paredes-em-drywall.jpeg'},
-    {'nome': 'Scanca Aberta ', 'img': 'assets/sanca-aberta.jpeg'},
-    {'nome': 'Sanca em Ilha', 'img': 'assets/sanca-em-ilha.jpeg'},
-    {'nome': 'Sanca Fechada', 'img': 'assets/sanca-fechada.jpeg'},
+    {'nome': 'Scanca Aberta ', 'img': 'lib/assets/images/sanca-aberta.jpeg'},
+    {'nome': 'Sanca em Ilha', 'img': 'lib/assets/images/sanca-em-ilha.jpeg'},
+    {'nome': 'Sanca Fechada', 'img': 'lib/assets/images/sanca-fechada.jpeg'},
   ];
 
   @override
