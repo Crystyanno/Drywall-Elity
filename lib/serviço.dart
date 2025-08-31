@@ -7,14 +7,27 @@ class ServicoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final produtos = [
-      {'nome': 'Placas de Gesso', 'img': 'assets/placa_gesso.png'},
-      {'nome': 'Sacos de Gesso', 'img': 'assets/saco_gesso.png'},
-      {'nome': 'Molduras', 'img': 'assets/moldura.png'},
-      {'nome': 'Blocos de Gesso', 'img': 'assets/bloco_gesso.png'},
-      {'nome': 'Gesso Cola', 'img': 'assets/gesso_cola.png'},
-      {'nome': 'Ferragens para Drywall', 'img': 'assets/ferragem.png'},
-      {'nome': 'Ferramentas', 'img': 'assets/ferramentas.png'},
-      {'nome': 'Placas em 3D', 'img': 'assets/placa_3d.png'},
+      //Forro Acartonado
+      {
+        'nome': 'Forro com Cortineiro ',
+        'img': 'assets/forro-com-cortineiro.jpeg',
+      },
+      {'nome': 'Forro de Gesso ', 'img': 'assetes/forro-de-gesso.jpeg'},
+      {'nome': 'Forro Tabicado', 'img': 'assetes/forro-tabicado.jpeg'},
+      {
+        'nome': 'Forro com Sanca Invertida',
+        'img': 'assetes/forro-com-sanca-invertida.jpeg',
+      },
+      //Paredes de Drywall
+      {
+        'nome': 'Parede com Isolamento Acustico ',
+        'img': 'assets/isolamento-acustico.jpeg',
+      },
+      {'nome': 'Paredes em Drywall', 'img': 'assetes/paredes-em-drywall.jpeg'},
+      //Gostaria de para cada tipo de serviço ser clicavel EX: Sancas dai abre uma pagina com esse 3 modelos
+      {'nome': 'Scanca Aberta ', 'img': 'assets/sanca-aberta.jpeg'},
+      {'nome': 'Sanca em Ilha', 'img': 'assetes/sanca-em-ilha.jpeg'},
+      {'nome': 'Sanca Fechada', 'img': 'assetes/sanca-fechada.jpeg'},
     ];
 
     return LayoutBuilder(
