@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class ServicoDialog extends StatefulWidget {
-  const ServicoDialog({super.key});
+  const ServicoDialog({super.key, required Map<String, String> produto});
 
   @override
   State<ServicoDialog> createState() => _ServicoDialogState();

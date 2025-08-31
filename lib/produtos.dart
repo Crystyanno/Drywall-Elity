@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meu_app/dialog/servico.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProdutosWidget extends StatefulWidget {
@@ -209,7 +210,10 @@ class _ProdutosWidgetState extends State<ProdutosWidget> {
                   const SizedBox(height: 8),
                   ElevatedButton(
                     onPressed: () {
-                      // Adicione a ação do botão aqui
+                      showDialog(
+                        context: context,
+                        builder: (context) => ServicoDialog(produto: produto),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue[700],

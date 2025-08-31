@@ -1,149 +1,219 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class ServicoWidget extends StatelessWidget {
+class ServicoWidget extends StatefulWidget {
   const ServicoWidget({Key? key}) : super(key: key);
 
   @override
+  State<ServicoWidget> createState() => _ServicoWidgetState();
+}
+
+class _ServicoWidgetState extends State<ServicoWidget> {
+  final PageController _pageController = PageController(viewportFraction: 0.95);
+  int _currentIndex = 0;
+
+  final int _cardsPerPage = 3;
+
+  final List<Map<String, String>> produtos = [
+    {
+      'nome': 'Forro com Cortineiro ',
+      'img': 'assets/forro-com-cortineiro.jpeg',
+    },
+    {'nome': 'Forro de Gesso ', 'img': 'assetes/forro-de-gesso.jpeg'},
+    {'nome': 'Forro Tabicado', 'img': 'assetes/forro-tabicado.jpeg'},
+    {
+      'nome': 'Forro com Sanca Invertida',
+      'img': 'assetes/forro-com-sanca-invertida.jpeg',
+    },
+    {
+      'nome': 'Parede com Isolamento Acustico ',
+      'img': 'assets/isolamento-acustico.jpeg',
+    },
+    {'nome': 'Paredes em Drywall', 'img': 'assetes/paredes-em-drywall.jpeg'},
+    {'nome': 'Scanca Aberta ', 'img': 'assets/sanca-aberta.jpeg'},
+    {'nome': 'Sanca em Ilha', 'img': 'assetes/sanca-em-ilha.jpeg'},
+    {'nome': 'Sanca Fechada', 'img': 'assetes/sanca-fechada.jpeg'},
+  ];
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _nextPage() {
+    if (_currentIndex < _pageCount() - 1) {
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  void _previousPage() {
+    if (_currentIndex > 0) {
+      _pageController.previousPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  int _pageCount() {
+    return (produtos.length / _cardsPerPage).ceil();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final produtos = [
-      //Forro Acartonado
-      {
-        'nome': 'Forro com Cortineiro ',
-        'img': 'assets/forro-com-cortineiro.jpeg',
-      },
-      {'nome': 'Forro de Gesso ', 'img': 'assetes/forro-de-gesso.jpeg'},
-      {'nome': 'Forro Tabicado', 'img': 'assetes/forro-tabicado.jpeg'},
-      {
-        'nome': 'Forro com Sanca Invertida',
-        'img': 'assetes/forro-com-sanca-invertida.jpeg',
-      },
-      //Paredes de Drywall
-      {
-        'nome': 'Parede com Isolamento Acustico ',
-        'img': 'assets/isolamento-acustico.jpeg',
-      },
-      {'nome': 'Paredes em Drywall', 'img': 'assetes/paredes-em-drywall.jpeg'},
-      //Gostaria de para cada tipo de serviço ser clicavel EX: Sancas dai abre uma pagina com esse 3 modelos
-      {'nome': 'Scanca Aberta ', 'img': 'assets/sanca-aberta.jpeg'},
-      {'nome': 'Sanca em Ilha', 'img': 'assetes/sanca-em-ilha.jpeg'},
-      {'nome': 'Sanca Fechada', 'img': 'assetes/sanca-fechada.jpeg'},
-    ];
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        int crossAxisCount = _calculateCrossAxisCount(constraints.maxWidth);
-
-        return Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: _calculateHorizontalPadding(constraints.maxWidth),
-                vertical: 24.0,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Conheça nossos Serviços',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: -0.5,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: crossAxisCount,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      childAspectRatio: _calculateChildAspectRatio(
-                        constraints.maxWidth,
-                      ),
-                    ),
-                    itemCount: produtos.length,
-                    itemBuilder: (context, index) {
-                      final produto = produtos[index];
-                      return _buildProductCard(produto, context);
-                    },
-                  ),
-                ],
-              ),
+    return Column(
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 24.0),
+          child: Text(
+            'Conheça nossos Serviços',
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
             ),
-            const SizedBox(height: 24),
-            _buildBenefitsSection(),
-          ],
-        );
-      },
+          ),
+        ),
+        SizedBox(
+          height: 280,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              PageView.builder(
+                controller: _pageController,
+                itemCount: _pageCount(),
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                itemBuilder: (context, pageIndex) {
+                  final start = pageIndex * _cardsPerPage;
+                  final end = (start + _cardsPerPage) > produtos.length
+                      ? produtos.length
+                      : (start + _cardsPerPage);
+                  final pageProdutos = produtos.sublist(start, end);
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(_cardsPerPage, (i) {
+                      if (i < pageProdutos.length) {
+                        return Expanded(
+                          child: _buildProductCard(pageProdutos[i], context),
+                        );
+                      } else {
+                        // Espaço vazio para alinhar os cards
+                        return const Expanded(child: SizedBox());
+                      }
+                    }),
+                  );
+                },
+              ),
+              // Botão voltar
+              Positioned(
+                left: 0,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios, size: 32),
+                  color: _currentIndex > 0 ? Colors.blue : Colors.grey.shade300,
+                  onPressed: _currentIndex > 0 ? _previousPage : null,
+                ),
+              ),
+              // Botão avançar
+              Positioned(
+                right: 0,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_forward_ios, size: 32),
+                  color: _currentIndex < _pageCount() - 1
+                      ? Colors.blue
+                      : Colors.grey.shade300,
+                  onPressed: _currentIndex < _pageCount() - 1
+                      ? _nextPage
+                      : null,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        SmoothPageIndicator(
+          controller: _pageController,
+          count: _pageCount(),
+          effect: WormEffect(
+            dotHeight: 12,
+            dotWidth: 12,
+            activeDotColor: Colors.blue.shade700,
+            dotColor: Colors.grey.shade300,
+          ),
+        ),
+        const SizedBox(height: 24),
+        _buildBenefitsSection(),
+      ],
     );
   }
 
   Widget _buildProductCard(Map<String, String> produto, BuildContext context) {
-    return Card(
-      elevation: 4,
-      shadowColor: Colors.black.withOpacity(0.2),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: () {
-          // Add onTap functionality here
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Colors.white, Colors.grey.shade50],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Card(
+        elevation: 4,
+        shadowColor: Colors.black.withOpacity(0.2),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () {
+            // Adicione ação ao clicar no serviço
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.white, Colors.grey.shade50],
+              ),
             ),
-          ),
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.all(12),
-                  child: Center(
-                    child: FutureBuilder<bool>(
-                      future: _checkImageExists(produto['img']!),
-                      builder: (context, snapshot) {
-                        if (snapshot.data == true) {
-                          return Image.asset(
-                            produto['img']!,
-                            fit: BoxFit.contain,
-                          );
-                        }
-                        return Icon(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: const EdgeInsets.all(12),
+                    child: Center(
+                      child: Image.asset(
+                        produto['img']!,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) => Icon(
                           Icons.image_outlined,
-                          size: 32,
+                          size: 48,
                           color: Colors.grey[400],
-                        );
-                      },
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                produto['nome']!,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  height: 1.2,
+                const SizedBox(height: 12),
+                Text(
+                  produto['nome']!,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    height: 1.2,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
