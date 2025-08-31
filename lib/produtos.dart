@@ -25,7 +25,7 @@ class _ProdutosWidgetState extends State<ProdutosWidget> {
     },
     {
       'nome': 'Chapa de Drywall Resistente ao Fogo 1,80x1,20m Rosa ',
-      'img': 'assets/Gypsun-repsa.jpeg',
+      'img': 'assets/forro-com-cortineiro.jpeg',
     },
   ];
 
