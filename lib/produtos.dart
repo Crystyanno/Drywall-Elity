@@ -16,8 +16,8 @@ class _ProdutosWidgetState extends State<ProdutosWidget> {
   final List<Map<String, String>> produtos = [
     {'nome': 'Ferragens para Drywall', 'img': 'assets/ferragem.png'},
     {
-      'nome': 'Chapa de Drywall Standard 1,8x1,2mx1,25cm Branca',
-      'img': 'assets/Gypsun-branca.jpeg',
+      'nome': 'Forro com Cortineiro',
+      'img': 'lib/assets/images/forro-com-cortineiro.jpeg',
     },
     {
       'nome': 'Chapa de Drywall Resistente a Úmidade 1,8x1,2mx1,25cm Verde',
