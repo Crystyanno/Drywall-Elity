@@ -1,84 +1,195 @@
 import 'package:flutter/material.dart';
+import 'package:meu_app/dialog/servico.dart';
 
 class ConteudoWidget extends StatelessWidget {
   const ConteudoWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ClipPath(
-      clipper: DerretidoClipper(),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 24),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blue.shade900, Colors.blue.shade400],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+    return Stack(
+      children: [
+        // Fundo azul com curva
+        Positioned.fill(
+          child: Column(
+            children: [
+              // Parte azul (40% da altura)
+              Expanded(flex: 4, child: Container(color: Colors.blue.shade600)),
+              // Parte branca (60% da altura)
+              Expanded(flex: 6, child: Container(color: Colors.white)),
+            ],
           ),
         ),
-        child: Column(
+
+        // Curva de transição entre azul e branco
+        Positioned(
+          top: MediaQuery.of(context).size.height * 0.2,
+          left: 0,
+          right: 0,
+          child: SizedBox(
+            height: 120,
+            width: double.infinity,
+            child: CustomPaint(painter: CurvePainter()),
+          ),
+        ),
+
+        // Conteúdo principal
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              '✨ Soluções em Drywall ✨',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+            const SizedBox(height: 60),
+
+            // Título no topo com fundo transparente e estrelas
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(50),
               ),
-              textAlign: TextAlign.center,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.star, color: Colors.amber, size: 20),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Soluções em Drywall',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  const Icon(Icons.star, color: Colors.amber, size: 20),
+                ],
+              ),
             ),
-            const SizedBox(height: 12),
-            Text(
-              'Transformamos espaços com qualidade, agilidade e\n'
-              'um acabamento impecável para residências e comércios.',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Colors.white.withOpacity(0.9),
+
+            const SizedBox(height: 40),
+
+            // Card principal
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 20,
+                      spreadRadius: 0,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(30),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Ícone da casa
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade50,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.home_rounded,
+                        size: 40,
+                        color: Colors.blue.shade600,
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Texto principal
+                    Text(
+                      'Transformamos espaços com qualidade, agilidade e um acabamento impecável',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w600,
+                        height: 1.3,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Texto secundário
+                    Text(
+                      'Soluções personalizadas para residências e comércios',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Colors.grey.shade600,
+                        fontStyle: FontStyle.italic,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+
+                    const SizedBox(height: 30),
+
+                    // Botão
+                    // ...existing code...
+                    // Botão
+                    Center(
+                      child: SizedBox(
+                        width: 220, // ajuste o valor conforme desejado
+                        child: ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => ServicoDialog(produto: {}),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue.shade600,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            'Solicitar Orçamento',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    // ...existing code...
+                  ],
+                ),
               ),
             ),
           ],
         ),
-      ),
+      ],
     );
   }
 }
 
-/// CustomClipper que cria efeito "derretido" na parte de baixo
-class DerretidoClipper extends CustomClipper<Path> {
+// Painter para criar a curva suave entre o azul e o branco
+class CurvePainter extends CustomPainter {
   @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.lineTo(0, size.height - 40);
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
 
-    // curva 1
-    path.quadraticBezierTo(
-      size.width * 0.2,
-      size.height,
-      size.width * 0.4,
-      size.height - 30,
-    );
+    var path = Path();
 
-    // curva 2
-    path.quadraticBezierTo(
-      size.width * 0.6,
-      size.height - 60,
-      size.width * 0.8,
-      size.height - 20,
-    );
-
-    // curva 3
-    path.quadraticBezierTo(
-      size.width * 0.9,
-      size.height,
-      size.width,
-      size.height - 30,
-    );
-
-    path.lineTo(size.width, 0);
+    path.moveTo(0, size.height);
+    path.lineTo(0, size.height * 0.5);
+    path.quadraticBezierTo(size.width * 0.5, 0, size.width, size.height * 0.5);
+    path.lineTo(size.width, size.height);
     path.close();
-    return path;
+
+    canvas.drawPath(path, paint);
   }
 
   @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

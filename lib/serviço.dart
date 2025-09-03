@@ -10,31 +10,35 @@ class ServicoWidget extends StatefulWidget {
 }
 
 class _ServicoWidgetState extends State<ServicoWidget> {
-  final PageController _pageController = PageController(viewportFraction: 0.95);
+  late PageController _pageController;
   int _currentIndex = 0;
-
-  final int _cardsPerPage = 3;
 
   final List<Map<String, String>> produtos = [
     {
-      'nome': 'Forro com Cortineiro ',
+      'nome': 'Forro com Cortineiro',
       'img': 'lib/assets/images/forro-com-cortineiro.jpeg',
     },
-    {'nome': 'Forro de Gesso ', 'img': 'assets/forro-de-gesso.jpeg'},
+    {'nome': 'Forro de Gesso', 'img': 'assets/forro-de-gesso.jpeg'},
     {'nome': 'Forro Tabicado', 'img': 'lib/assets/images/forro-tabicado.jpeg'},
     {
       'nome': 'Forro com Sanca Invertida',
       'img': 'lib/assets/images/forro-com-sanca-invertida.jpeg',
     },
     {
-      'nome': 'Parede com Isolamento Acustico ',
+      'nome': 'Parede com Isolamento Acustico',
       'img': 'lib/assets/images/isolamento-acustico.jpeg',
     },
     {'nome': 'Paredes em Drywall', 'img': 'assets/paredes-em-drywall.jpeg'},
-    {'nome': 'Scanca Aberta ', 'img': 'lib/assets/images/sanca-aberta.jpeg'},
+    {'nome': 'Scanca Aberta', 'img': 'lib/assets/images/sanca-aberta.jpeg'},
     {'nome': 'Sanca em Ilha', 'img': 'lib/assets/images/sanca-em-ilha.jpeg'},
     {'nome': 'Sanca Fechada', 'img': 'lib/assets/images/sanca-fechada.jpeg'},
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(viewportFraction: 0.95);
+  }
 
   @override
   void dispose() {
@@ -43,7 +47,7 @@ class _ServicoWidgetState extends State<ServicoWidget> {
   }
 
   void _nextPage() {
-    if (_currentIndex < _pageCount() - 1) {
+    if (_currentIndex < _pageCount(context) - 1) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
@@ -60,12 +64,28 @@ class _ServicoWidgetState extends State<ServicoWidget> {
     }
   }
 
-  int _pageCount() {
-    return (produtos.length / _cardsPerPage).ceil();
+  // Retorna o número de cartões por página com base na largura da tela
+  int _cardsPerPage(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    if (width >= 800) {
+      return 3; // Desktop/tablet: 3 cards
+    } else {
+      return 1; // Mobile: 1 card
+    }
+  }
+
+  // Calcula o número total de páginas
+  int _pageCount(BuildContext context) {
+    return (produtos.length / _cardsPerPage(context)).ceil();
   }
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = MediaQuery.of(context).size.width < 800;
+
+    // Altura aumentada para modo mobile para mostrar imagens maiores
+    final cardHeight = isMobile ? 400.0 : 280.0;
+
     return Column(
       children: [
         const Padding(
@@ -80,37 +100,20 @@ class _ServicoWidgetState extends State<ServicoWidget> {
           ),
         ),
         SizedBox(
-          height: 280,
+          height: cardHeight,
           child: Stack(
             alignment: Alignment.center,
             children: [
               PageView.builder(
                 controller: _pageController,
-                itemCount: _pageCount(),
+                itemCount: _pageCount(context),
                 onPageChanged: (index) {
                   setState(() {
                     _currentIndex = index;
                   });
                 },
                 itemBuilder: (context, pageIndex) {
-                  final start = pageIndex * _cardsPerPage;
-                  final end = (start + _cardsPerPage) > produtos.length
-                      ? produtos.length
-                      : (start + _cardsPerPage);
-                  final pageProdutos = produtos.sublist(start, end);
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(_cardsPerPage, (i) {
-                      if (i < pageProdutos.length) {
-                        return Expanded(
-                          child: _buildProductCard(pageProdutos[i], context),
-                        );
-                      } else {
-                        // Espaço vazio para alinhar os cards
-                        return const Expanded(child: SizedBox());
-                      }
-                    }),
-                  );
+                  return _buildPageContent(context, pageIndex);
                 },
               ),
               // Botão voltar
@@ -127,10 +130,10 @@ class _ServicoWidgetState extends State<ServicoWidget> {
                 right: 0,
                 child: IconButton(
                   icon: const Icon(Icons.arrow_forward_ios, size: 32),
-                  color: _currentIndex < _pageCount() - 1
+                  color: _currentIndex < _pageCount(context) - 1
                       ? Colors.blue
                       : Colors.grey.shade300,
-                  onPressed: _currentIndex < _pageCount() - 1
+                  onPressed: _currentIndex < _pageCount(context) - 1
                       ? _nextPage
                       : null,
                 ),
@@ -141,7 +144,7 @@ class _ServicoWidgetState extends State<ServicoWidget> {
         const SizedBox(height: 16),
         SmoothPageIndicator(
           controller: _pageController,
-          count: _pageCount(),
+          count: _pageCount(context),
           effect: WormEffect(
             dotHeight: 12,
             dotWidth: 12,
@@ -155,9 +158,33 @@ class _ServicoWidgetState extends State<ServicoWidget> {
     );
   }
 
+  Widget _buildPageContent(BuildContext context, int pageIndex) {
+    final cardsPerPage = _cardsPerPage(context);
+    final start = pageIndex * cardsPerPage;
+    final end = (start + cardsPerPage) > produtos.length
+        ? produtos.length
+        : (start + cardsPerPage);
+    final pageProdutos = produtos.sublist(start, end);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(cardsPerPage, (i) {
+        if (i < pageProdutos.length) {
+          return Expanded(child: _buildProductCard(pageProdutos[i], context));
+        } else {
+          // Espaço vazio para alinhar os cards
+          return const Expanded(child: SizedBox());
+        }
+      }),
+    );
+  }
+
   Widget _buildProductCard(Map<String, String> produto, BuildContext context) {
+    final bool isMobile = MediaQuery.of(context).size.width < 800;
+    final horizontalPadding = isMobile ? 16.0 : 8.0;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 4),
       child: Card(
         elevation: 4,
         shadowColor: Colors.black.withOpacity(0.2),
@@ -176,42 +203,99 @@ class _ServicoWidgetState extends State<ServicoWidget> {
                 colors: [Colors.white, Colors.grey.shade50],
               ),
             ),
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(isMobile ? 16.0 : 16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Container para a imagem - modificado para usar mais espaço vertical no mobile
                 Expanded(
+                  flex: isMobile
+                      ? 7
+                      : 5, // Aumenta a proporção da imagem no mobile
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 2,
+                          spreadRadius: 1,
+                        ),
+                      ],
                     ),
-                    padding: const EdgeInsets.all(12),
-                    child: Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
                       child: Image.asset(
                         produto['img']!,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) => Icon(
-                          Icons.image_outlined,
-                          size: 48,
-                          color: Colors.grey[400],
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          color: Colors.grey[100],
+                          alignment: Alignment.center,
+                          child: Icon(
+                            Icons.image_not_supported_outlined,
+                            size: 36,
+                            color: Colors.grey[400],
+                          ),
                         ),
+                        width: double.infinity,
+                        height: double.infinity,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  produto['nome']!,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    height: 1.2,
+
+                // Espaço entre imagem e texto
+                SizedBox(height: isMobile ? 16 : 12),
+
+                // Título do produto
+                Expanded(
+                  flex: isMobile ? 1 : 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        produto['nome']!,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: isMobile ? 18 : 16,
+                          fontWeight: FontWeight.w600,
+                          height: 1.2,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+
+                // Botão apenas para mobile
+                if (isMobile)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12, bottom: 8),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Ação do botão
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue.shade600,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text(
+                        'Ver detalhes',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -221,20 +305,24 @@ class _ServicoWidgetState extends State<ServicoWidget> {
   }
 
   Widget _buildBenefitsSection() {
-    return Container(
-      width: double.infinity,
-      color: Colors.blue.shade700,
-      padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 16.0),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1400),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final isWide = constraints.maxWidth > 800;
-              return Wrap(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWide = constraints.maxWidth > 800;
+
+        return Container(
+          width: double.infinity,
+          color: Colors.blue.shade700,
+          padding: EdgeInsets.symmetric(
+            vertical: isWide ? 40.0 : 32.0,
+            horizontal: isWide ? 16.0 : 20.0,
+          ),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1400),
+              child: Wrap(
                 alignment: WrapAlignment.center,
-                spacing: 32.0,
-                runSpacing: 32.0,
+                spacing: isWide ? 32.0 : 20.0,
+                runSpacing: isWide ? 32.0 : 24.0,
                 children: [
                   _buildBenefitItem(
                         Icons.speed,
@@ -273,11 +361,11 @@ class _ServicoWidgetState extends State<ServicoWidget> {
                       .fadeIn(duration: 600.ms, delay: 800.ms)
                       .slideX(begin: -0.2, duration: 600.ms),
                 ],
-              );
-            },
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -287,17 +375,24 @@ class _ServicoWidgetState extends State<ServicoWidget> {
     String description,
     bool isWide,
   ) {
+    // Ajustes para mobile
+    final double cardPadding = isWide ? 20.0 : 12.0;
+    final double iconSize = isWide ? 48 : 32;
+    final double titleFontSize = isWide ? 18 : 14;
+    final double descFontSize = isWide ? 14 : 12;
+    final double spacing1 = isWide ? 16 : 8;
+    final double spacing2 = isWide ? 12 : 6;
+    final double cardWidth = isWide ? 280 : double.infinity;
+
     return Container(
-      width: isWide ? 280 : double.infinity,
-      padding: const EdgeInsets.all(20.0),
+      width: cardWidth,
+      padding: EdgeInsets.all(cardPadding),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(
-              alpha: (0.08 * 255).round().toDouble(),
-            ),
+            color: Colors.black.withOpacity(0.08),
             blurRadius: 8,
             offset: const Offset(2, 4),
           ),
@@ -307,25 +402,25 @@ class _ServicoWidgetState extends State<ServicoWidget> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(icon, size: 48, color: Colors.blue.shade700)
+          Icon(icon, size: iconSize, color: Colors.blue.shade700)
               .animate(onPlay: (controller) => controller.repeat())
               .shimmer(delay: 2000.ms, duration: 1800.ms)
               .shake(hz: 2, curve: Curves.easeInOut),
-          const SizedBox(height: 16),
+          SizedBox(height: spacing1),
           Text(
             title.toUpperCase(),
-            style: const TextStyle(
-              fontSize: 18,
+            style: TextStyle(
+              fontSize: titleFontSize,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
             ),
             textAlign: TextAlign.center,
           ).animate().fadeIn(duration: 400.ms).scale(delay: 200.ms),
-          const SizedBox(height: 12),
+          SizedBox(height: spacing2),
           Text(
                 description,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: descFontSize,
                   color: Colors.grey.shade700,
                   height: 1.4,
                 ),
@@ -342,38 +437,6 @@ class _ServicoWidgetState extends State<ServicoWidget> {
       duration: 200.ms,
       curve: Curves.easeInOut,
     );
-  }
-
-  int _calculateCrossAxisCount(double width) {
-    if (width > 1200) return 4;
-    if (width > 900) return 3;
-    if (width > 600) return 2;
-    return 1;
-  }
-
-  double _calculateChildAspectRatio(double width) {
-    if (width > 1200) return 1.1;
-    if (width > 900) return 1.0;
-    if (width > 600) return 1.2;
-    return 0.9;
-  }
-
-  double _calculateHorizontalPadding(double width) {
-    if (width > 1200) return 64.0;
-    if (width > 900) return 48.0;
-    if (width > 600) return 32.0;
-    return 16.0;
-  }
-
-  Future<bool> _checkImageExists(String imagePath) async {
-    try {
-      await DefaultAssetBundle.of(
-        GlobalContext.currentContext!,
-      ).load(imagePath);
-      return true;
-    } catch (_) {
-      return false;
-    }
   }
 }
 
