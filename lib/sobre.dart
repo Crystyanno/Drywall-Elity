@@ -105,7 +105,7 @@ class SobreWidget extends StatelessWidget {
                     children: [
                       // Nome e função
                       const Text(
-                        'Crystyanno souza neto',
+                        'Guilherme Oliveira',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -115,7 +115,7 @@ class SobreWidget extends StatelessWidget {
 
                       const SizedBox(height: 4),
                       Text(
-                            'Especialista em Drywall',
+                            'Especialistas em Drywall',
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey.shade600,
@@ -137,7 +137,12 @@ class SobreWidget extends StatelessWidget {
                           border: Border.all(color: Colors.grey.shade200),
                         ),
                         child: const Text(
-                          'Profissional com mais de 10 anos de experiência em instalações de drywall e acabamentos. Especializado em projetos residenciais e comerciais, sempre buscando as melhores soluções em design e funcionalidade para cada cliente.',
+                          'Com anos de experiência no mercado, oferecemos soluções completas em gesso acartonado com foco na qualidade, praticidade e satisfação do cliente.',
+                          //Profissionais qualificados e experientes
+                          //Materiais de primeira qualidade
+                          //Projetos personalizados
+                          //Prazos cumpridos rigorosamente
+                          //Garantia em todos os serviços
                           style: TextStyle(
                             fontSize: 15,
                             height: 1.5,
