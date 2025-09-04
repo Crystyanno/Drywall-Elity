@@ -18,7 +18,7 @@ class _ServicoWidgetState extends State<ServicoWidget> {
       'nome': 'Forro com Cortineiro',
       'img': 'lib/assets/images/forro-com-cortineiro.jpeg',
     },
-    {'nome': 'Forro de Gesso', 'img': 'assets/forro-de-gesso.jpeg'},
+    {'nome': 'Forro de Gesso', 'img': 'lib/assets/images/Forro-de-gesso.jpeg'},
     {'nome': 'Forro Tabicado', 'img': 'lib/assets/images/forro-tabicado.jpeg'},
     {
       'nome': 'Forro com Sanca Invertida',
@@ -28,7 +28,11 @@ class _ServicoWidgetState extends State<ServicoWidget> {
       'nome': 'Parede com Isolamento Acustico',
       'img': 'lib/assets/images/isolamento-acustico.jpeg',
     },
-    {'nome': 'Paredes em Drywall', 'img': 'assets/paredes-em-drywall.jpeg'},
+    {
+      'nome': 'Parede em Drywall',
+      'img': 'lib/assets/images/parede-drywall.jpeg',
+    },
+
     {'nome': 'Scanca Aberta', 'img': 'lib/assets/images/sanca-aberta.jpeg'},
     {'nome': 'Sanca em Ilha', 'img': 'lib/assets/images/sanca-em-ilha.jpeg'},
     {'nome': 'Sanca Fechada', 'img': 'lib/assets/images/sanca-fechada.jpeg'},
