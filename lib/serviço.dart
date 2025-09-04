@@ -30,7 +30,7 @@ class _ServicoWidgetState extends State<ServicoWidget> {
     },
     {'nome': 'Parede em Drywall', 'img': 'lib/assets/images/ParedeDrywall.jpg'},
 
-    {'nome': 'Scanca Aberta', 'img': 'lib/assets/images/sanca-aberta.jpeg'},
+    {'nome': 'Sanca Aberta', 'img': 'lib/assets/images/sanca-aberta.jpeg'},
     {'nome': 'Sanca em Ilha', 'img': 'lib/assets/images/sanca-em-ilha.jpeg'},
     {'nome': 'Sanca Fechada', 'img': 'lib/assets/images/sanca-fechada.jpeg'},
   ];
