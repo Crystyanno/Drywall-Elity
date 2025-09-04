@@ -28,10 +28,7 @@ class _ServicoWidgetState extends State<ServicoWidget> {
       'nome': 'Parede com Isolamento Acustico',
       'img': 'lib/assets/images/isolamento-acustico.jpeg',
     },
-    {
-      'nome': 'Parede em Drywall',
-      'img': 'lib/assets/images/parede-drywall.jpeg',
-    },
+    {'nome': 'Parede em Drywall', 'img': 'lib/assets/images/ParedeDrywall.jpg'},
 
     {'nome': 'Scanca Aberta', 'img': 'lib/assets/images/sanca-aberta.jpeg'},
     {'nome': 'Sanca em Ilha', 'img': 'lib/assets/images/sanca-em-ilha.jpeg'},
