@@ -195,9 +195,12 @@ class CustomFooter extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        _contactRow(Icons.location_on, 'Rua Exemplo, 123'),
-        _contactRow(Icons.phone, '(11) 99999-9999'),
-        _contactRow(Icons.email, 'contato@elitydrywall.com'),
+        _contactRow(
+          Icons.location_on,
+          'Rua SM 26, Residencial São Marcos - GO',
+        ),
+        _contactRow(Icons.phone, '(62) 98566*7058'),
+        _contactRow(Icons.email, 'contato@elitydrywall.com.br'),
         const SizedBox(height: 16),
         Row(
           children: [
