@@ -83,8 +83,10 @@ class _ServicoWidgetState extends State<ServicoWidget> {
   Widget build(BuildContext context) {
     final bool isMobile = MediaQuery.of(context).size.width < 800;
 
-    // Altura aumentada para modo mobile para mostrar imagens maiores
-    final cardHeight = isMobile ? 400.0 : 280.0;
+    // Altura aumentada para modo web para mostrar imagens maiores
+    final cardHeight = isMobile
+        ? 400.0
+        : 450.0; // Aumentei de 280 para 350 no web
 
     return Column(
       children: [
@@ -207,11 +209,11 @@ class _ServicoWidgetState extends State<ServicoWidget> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Container para a imagem - modificado para usar mais espaço vertical no mobile
+                // Container para a imagem - aumentei a proporção no web para imagens maiores
                 Expanded(
                   flex: isMobile
                       ? 7
-                      : 5, // Aumenta a proporção da imagem no mobile
+                      : 7, // Mudei de 5 para 7 no web para dar mais espaço à imagem
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
@@ -249,7 +251,9 @@ class _ServicoWidgetState extends State<ServicoWidget> {
 
                 // Título do produto
                 Expanded(
-                  flex: isMobile ? 1 : 2,
+                  flex: isMobile
+                      ? 1
+                      : 1, // Mudei de 2 para 1 no web para equilibrar com a imagem maior
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
