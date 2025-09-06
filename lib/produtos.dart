@@ -10,7 +10,7 @@ class ProdutosWidget extends StatefulWidget {
 }
 
 class _ProdutosWidgetState extends State<ProdutosWidget> {
-  final PageController _pageController = PageController(viewportFraction: 0.85);
+  final PageController _pageController = PageController(viewportFraction: 1.0);
   int _currentIndex = 0;
 
   final List<Map<String, String>> produtos = [
@@ -27,6 +27,21 @@ class _ProdutosWidgetState extends State<ProdutosWidget> {
       'img': 'lib/assets/images/Gypsum-branca.jpeg',
     },
   ];
+
+  // Retorna o número de cartões por página com base na largura da tela
+  int _cardsPerPage(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    if (width >= 800) {
+      return 3; // Desktop/tablet: 3 cards
+    } else {
+      return 1; // Mobile: 1 card
+    }
+  }
+
+  // Calcula o número total de páginas
+  int _pageCount(BuildContext context) {
+    return (produtos.length / _cardsPerPage(context)).ceil();
+  }
 
   @override
   void dispose() {
@@ -82,17 +97,17 @@ class _ProdutosWidgetState extends State<ProdutosWidget> {
               ),
               const SizedBox(height: 32),
               SizedBox(
-                height: 320,
+                height: 400, // Aumentei para 400 para imagens maiores
                 child: PageView.builder(
                   controller: _pageController,
-                  itemCount: produtos.length,
+                  itemCount: _pageCount(context),
                   onPageChanged: (index) {
                     setState(() {
                       _currentIndex = index;
                     });
                   },
-                  itemBuilder: (context, index) {
-                    return _buildProductCard(produtos[index], context);
+                  itemBuilder: (context, pageIndex) {
+                    return _buildPageContent(context, pageIndex);
                   },
                 ),
               ),
@@ -108,7 +123,7 @@ class _ProdutosWidgetState extends State<ProdutosWidget> {
                   const SizedBox(width: 16),
                   SmoothPageIndicator(
                     controller: _pageController,
-                    count: produtos.length,
+                    count: _pageCount(context),
                     effect: ExpandingDotsEffect(
                       activeDotColor: Colors.blue[700]!,
                       dotColor: Colors.grey[300]!,
@@ -129,6 +144,26 @@ class _ProdutosWidgetState extends State<ProdutosWidget> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildPageContent(BuildContext context, int pageIndex) {
+    final cardsPerPage = _cardsPerPage(context);
+    final start = pageIndex * cardsPerPage;
+    final end = (start + cardsPerPage) > produtos.length
+        ? produtos.length
+        : (start + cardsPerPage);
+    final pageProdutos = produtos.sublist(start, end);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(cardsPerPage, (i) {
+        if (i < pageProdutos.length) {
+          return Expanded(child: _buildProductCard(pageProdutos[i], context));
+        } else {
+          return const Expanded(child: SizedBox());
+        }
+      }),
     );
   }
 
@@ -175,15 +210,18 @@ class _ProdutosWidgetState extends State<ProdutosWidget> {
                         color: Colors.grey[100],
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(
+                        10,
+                      ), // Reduzi de 20 para 10 para imagens maiores
                       child: Center(
                         child: FutureBuilder<bool>(
-                          future: _checkImageExists(produto['img']!),
+                          future: _checkImageExists(produto['img']!, context),
                           builder: (context, snapshot) {
                             if (snapshot.data == true) {
                               return Image.asset(
                                 produto['img']!,
-                                fit: BoxFit.contain,
+                                fit: BoxFit
+                                    .cover, // Mudei para cover para preencher melhor
                               );
                             }
                             return Icon(
@@ -235,20 +273,20 @@ class _ProdutosWidgetState extends State<ProdutosWidget> {
       ),
     );
   }
+}
 
-  double _getHorizontalPadding(double width) {
-    if (width > 1200) return 64.0;
-    if (width > 900) return 48.0;
-    if (width > 600) return 32.0;
-    return 24.0;
-  }
+double _getHorizontalPadding(double width) {
+  if (width > 1200) return 64.0;
+  if (width > 900) return 48.0;
+  if (width > 600) return 32.0;
+  return 24.0;
+}
 
-  Future<bool> _checkImageExists(String imagePath) async {
-    try {
-      await DefaultAssetBundle.of(context).load(imagePath);
-      return true;
-    } catch (_) {
-      return false;
-    }
+Future<bool> _checkImageExists(String imagePath, BuildContext context) async {
+  try {
+    await DefaultAssetBundle.of(context).load(imagePath);
+    return true;
+  } catch (_) {
+    return false;
   }
 }

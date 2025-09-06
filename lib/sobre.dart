@@ -3,12 +3,15 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SobreWidget extends StatelessWidget {
-  const SobreWidget({Key? key}) : super(key: key);
+  const SobreWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 60,
+        vertical: 40,
+      ), // Aumentado horizontal para 60 para reduzir ainda mais as laterais do card
       child: Column(
         children: [
           const Text(

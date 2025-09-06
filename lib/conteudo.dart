@@ -45,6 +45,14 @@ class ConteudoWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(50),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    spreadRadius: 0,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -69,17 +77,24 @@ class ConteudoWidget extends StatelessWidget {
 
             // Card principal
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 60),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 20,
-                      spreadRadius: 0,
-                      offset: const Offset(0, 4),
+                      color: Colors.black.withOpacity(
+                        0.15,
+                      ), // Aumentado a opacidade para uma sombra mais visível
+                      blurRadius:
+                          30, // Aumentado o blur para uma sombra mais suave
+                      spreadRadius:
+                          2, // Adicionado spread para expandir a sombra
+                      offset: const Offset(
+                        0,
+                        6,
+                      ), // Aumentado o offset para uma sombra mais elevada
                     ),
                   ],
                 ),
@@ -129,11 +144,9 @@ class ConteudoWidget extends StatelessWidget {
                     const SizedBox(height: 30),
 
                     // Botão
-                    // ...existing code...
-                    // Botão
                     Center(
                       child: SizedBox(
-                        width: 220, // ajuste o valor conforme desejado
+                        width: 220,
                         child: ElevatedButton(
                           onPressed: () {
                             showDialog(
@@ -159,7 +172,6 @@ class ConteudoWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // ...existing code...
                   ],
                 ),
               ),

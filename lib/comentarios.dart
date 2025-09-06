@@ -216,15 +216,26 @@ class _ComentariosCarouselState extends State<_ComentariosCarousel> {
   late final PageController _controller;
   Timer? _timer;
   bool _isPaused = false;
+  bool _autoScrollStarted = false;
 
   @override
   void initState() {
     super.initState();
-    _controller = PageController(viewportFraction: 0.9, initialPage: 0);
-    _startAutoScroll();
+    _controller = PageController(viewportFraction: 1.0, initialPage: 0);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_autoScrollStarted) {
+      _startAutoScroll();
+      _autoScrollStarted = true;
+    }
   }
 
   void _startAutoScroll() {
+    final isWeb = MediaQuery.of(context).size.width > 600;
+    if (isWeb) return; // Não iniciar auto scroll no web
     _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       if (!_isPaused && mounted) {
         if (_page < widget.comentarios.length - 1) {
@@ -260,18 +271,37 @@ class _ComentariosCarouselState extends State<_ComentariosCarousel> {
   // automatico
   @override
   Widget build(BuildContext context) {
+    final isWeb = MediaQuery.of(context).size.width > 600;
     return GestureDetector(
       onPanDown: (_) => _pauseAutoScroll(),
       onPanEnd: (_) => _resumeAutoScroll(),
       child: PageView.builder(
         controller: _controller,
-        itemCount: widget.comentarios.length,
+        itemCount: isWeb ? 1 : widget.comentarios.length,
         onPageChanged: (i) => setState(() => _page = i),
         itemBuilder: (context, i) {
-          return Opacity(
-            opacity: i == _page ? 1.0 : 0.7,
-            child: ComentarioItem(comentario: widget.comentarios[i], index: i),
-          );
+          if (isWeb) {
+            return Row(
+              children: widget.comentarios
+                  .map(
+                    (c) => Expanded(
+                      child: ComentarioItem(
+                        comentario: c,
+                        index: widget.comentarios.indexOf(c),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            );
+          } else {
+            return Opacity(
+              opacity: i == _page ? 1.0 : 0.7,
+              child: ComentarioItem(
+                comentario: widget.comentarios[i],
+                index: i,
+              ),
+            );
+          }
         },
       ),
     );
@@ -538,7 +568,6 @@ class RasgoClipper extends CustomClipper<Path> {
     // Criar o efeito rasgado na parte superior
     for (int i = 0; i < waves; i++) {
       final waveWidth = size.width / waves;
-      final x1 = i * waveWidth;
       final x2 = (i + 0.5) * waveWidth;
       final x3 = (i + 1) * waveWidth;
 

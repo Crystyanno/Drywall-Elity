@@ -38,7 +38,9 @@ class _ServicoWidgetState extends State<ServicoWidget> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(viewportFraction: 0.95);
+    _pageController = PageController(
+      viewportFraction: 1.0,
+    ); // Mudado para 1.0 para mostrar 3 cards completamente no web
   }
 
   @override
@@ -86,8 +88,8 @@ class _ServicoWidgetState extends State<ServicoWidget> {
 
     // Altura aumentada para modo web para mostrar imagens maiores
     final cardHeight = isMobile
-        ? 400.0
-        : 450.0; // Aumentei de 280 para 350 no web
+        ? 450.0
+        : 500.0; // Aumentei para 500 no web para imagens maiores
 
     return Column(
       children: [
@@ -214,7 +216,7 @@ class _ServicoWidgetState extends State<ServicoWidget> {
                 Expanded(
                   flex: isMobile
                       ? 7
-                      : 7, // Mudei de 5 para 7 no web para dar mais espaço à imagem
+                      : 8, // Aumentei para 8 no web para imagens ainda maiores
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
@@ -254,7 +256,7 @@ class _ServicoWidgetState extends State<ServicoWidget> {
                 Expanded(
                   flex: isMobile
                       ? 1
-                      : 1, // Mudei de 2 para 1 no web para equilibrar com a imagem maior
+                      : 1, // Mantive 1 para equilibrar com imagem maior
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
